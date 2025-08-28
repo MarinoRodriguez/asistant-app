@@ -1,1 +1,34 @@
-[]
+[
+  {
+    "id": 1756341062917,
+    "date": "2025-08-27",
+    "closed": true,
+    "records": [
+      {
+        "personId": 1756340862863,
+        "present": true,
+        "markedAt": "2025-08-28T00:31:11.405Z"
+      },
+      {
+        "personId": 1756340868460,
+        "present": true,
+        "markedAt": "2025-08-28T00:31:18.495Z"
+      },
+      {
+        "personId": 1756340862506,
+        "present": true,
+        "markedAt": "2025-08-28T00:31:43.194Z"
+      },
+      {
+        "personId": 1756340744494,
+        "present": true,
+        "markedAt": "2025-08-28T00:31:44.466Z"
+      },
+      {
+        "personId": 1756340864662,
+        "present": true,
+        "markedAt": "2025-08-28T00:31:46.225Z"
+      }
+    ]
+  }
+]

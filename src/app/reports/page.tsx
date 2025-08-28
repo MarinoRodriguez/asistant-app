@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 interface Person {
   id: number;
@@ -23,7 +23,7 @@ export default function ReportsPage() {
   const [sessions, setSessions] = useState<Session[]>([]);
   const [start, setStart] = useState('');
   const [end, setEnd] = useState('');
-  const [personId, setPersonId] = useState('all');
+  const [selected, setSelected] = useState<number[]>([]);
 
   useEffect(() => {
     fetch('/api/people').then(r => r.json()).then(setPeople);
@@ -37,10 +37,11 @@ export default function ReportsPage() {
     return true;
   });
 
-  const personFilter = personId === 'all' ? null : Number(personId);
+  const selectedPeople = useMemo(() => (
+    selected.length ? people.filter(p => selected.includes(p.id)) : people
+  ), [people, selected]);
 
-  const rows = people
-    .filter(p => !personFilter || p.id === personFilter)
+  const rows = selectedPeople
     .map(p => {
       let present = 0;
       let total = 0;
@@ -55,19 +56,44 @@ export default function ReportsPage() {
     });
 
   return (
-    <div>
-      <h1>Reports</h1>
-      <div>
-        <input type="date" value={start} onChange={e => setStart(e.target.value)} />
-        <input type="date" value={end} onChange={e => setEnd(e.target.value)} />
-        <select value={personId} onChange={e => setPersonId(e.target.value)}>
-          <option value="all">All</option>
-          {people.map(p => (
-            <option key={p.id} value={p.id}>{p.name}</option>
-          ))}
-        </select>
+    <div className="d-grid gap-3">
+      <div className="d-flex justify-content-between align-items-center">
+        <button className="btn btn-outline-secondary" onClick={() => history.back()}>← Volver</button>
+        <h1 className="h4 m-0">Reportes</h1>
+        <div style={{ width: 90 }} />
       </div>
-      <table>
+      <div className="card shadow-sm">
+        <div className="card-body d-flex gap-2 flex-wrap align-items-center">
+          <input className="form-control" type="date" value={start} onChange={e => setStart(e.target.value)} />
+          <input className="form-control" type="date" value={end} onChange={e => setEnd(e.target.value)} />
+          <button className="btn btn-outline-secondary" onClick={() => { setStart(''); setEnd(''); }}>Limpiar</button>
+          <button className="btn btn-outline-primary" onClick={() => {
+            const lines = ['name,present,total'];
+            rows.forEach(r => lines.push(`${JSON.stringify(r.name)},${r.present},${r.total}`));
+            const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'reporte.csv';
+            a.click();
+          }}>Exportar CSV</button>
+        </div>
+        <div className="px-3 pb-3">
+          <strong>Selecciona personas (opcional)</strong>
+          <ul className="list-group mt-2" style={{ maxHeight: 300, overflow: 'auto' }}>
+            {people.map(p => (
+              <li key={p.id} className="list-group-item">
+                <label className="d-flex align-items-center gap-2">
+                  <input type="checkbox" checked={selected.includes(p.id)} onChange={e => {
+                    setSelected(prev => e.target.checked ? [...prev, p.id] : prev.filter(id => id !== p.id));
+                  }} />
+                  {p.name}
+                </label>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <table className="table table-striped">
         <thead>
           <tr>
             <th>Name</th>

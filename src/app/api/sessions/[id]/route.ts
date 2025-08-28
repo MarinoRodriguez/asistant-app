@@ -4,6 +4,7 @@ import { readJSON, writeJSON } from '@/lib/db';
 interface SessionRecord {
   personId: number;
   present: boolean;
+  markedAt?: string;
 }
 
 interface Session {
