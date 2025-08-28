@@ -67,7 +67,7 @@ export default function ReportsPage() {
           <input className="form-control" type="date" value={start} onChange={e => setStart(e.target.value)} />
           <input className="form-control" type="date" value={end} onChange={e => setEnd(e.target.value)} />
           <button className="btn btn-outline-secondary" onClick={() => { setStart(''); setEnd(''); }}>Limpiar</button>
-          <button className="btn btn-outline-primary" onClick={() => {
+          <button className="btn btn-outline-primary" onClick={async () => {
             const lines = ['name,present,total'];
             rows.forEach(r => lines.push(`${JSON.stringify(r.name)},${r.present},${r.total}`));
             const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
@@ -75,6 +75,8 @@ export default function ReportsPage() {
             a.href = URL.createObjectURL(blob);
             a.download = 'reporte.csv';
             a.click();
+            const Swal = (await import('sweetalert2')).default;
+            Swal.fire({ icon: 'success', title: 'Reporte exportado', timer: 1200, showConfirmButton: false });
           }}>Exportar CSV</button>
         </div>
         <div className="px-3 pb-3">

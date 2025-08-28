@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { useEffect, useMemo, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
@@ -176,4 +176,3 @@ export default function SessionPage() {
     </div>
   );
 }
-

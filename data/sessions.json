@@ -30,5 +30,69 @@
         "markedAt": "2025-08-28T00:31:46.225Z"
       }
     ]
+  },
+  {
+    "id": 1756352858897,
+    "date": "2025-08-27",
+    "closed": true,
+    "records": [
+      {
+        "personId": 1756340866743,
+        "present": true,
+        "markedAt": "2025-08-28T04:09:41.069Z"
+      },
+      {
+        "personId": 1756340865393,
+        "present": true,
+        "markedAt": "2025-08-28T04:09:42.663Z"
+      }
+    ]
+  },
+  {
+    "id": 1756354159153,
+    "date": "2025-08-28",
+    "name": "culto domingo 27",
+    "closed": true,
+    "records": [
+      {
+        "personId": 1756340781734,
+        "present": true,
+        "markedAt": "2025-08-28T04:09:24.423Z"
+      },
+      {
+        "personId": 1756340866399,
+        "present": true,
+        "markedAt": "2025-08-28T04:09:57.446Z"
+      },
+      {
+        "personId": 1756340865005,
+        "present": true,
+        "markedAt": "2025-08-28T04:09:59.193Z"
+      }
+    ]
+  },
+  {
+    "id": 1756355244555,
+    "date": "2025-08-28",
+    "name": "culto domingo 27",
+    "workspaceId": 1756355033303,
+    "closed": true,
+    "records": [
+      {
+        "personId": 1756355188551,
+        "present": true,
+        "markedAt": "2025-08-28T04:27:29.939Z"
+      },
+      {
+        "personId": 1756355190235,
+        "present": true,
+        "markedAt": "2025-08-28T04:27:31.221Z"
+      },
+      {
+        "personId": 1756355176639,
+        "present": true,
+        "markedAt": "2025-08-28T04:27:33.170Z"
+      }
+    ]
   }
 ]

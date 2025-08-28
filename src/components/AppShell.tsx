@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import Swal from 'sweetalert2';
 
 declare global {
   interface Window { sessionDirty?: boolean }
@@ -20,11 +21,17 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     }).catch(() => setAuthed(false));
   }, [pathname]);
 
-  const nav = (href: string) => {
+  const nav = async (href: string) => {
     if (typeof window !== 'undefined' && window.sessionDirty) {
-      if (!confirm('Tienes cambios sin guardar en la sesión. ¿Salir de todos modos?')) {
-        return;
-      }
+      const res = await Swal.fire({
+        icon: 'warning',
+        title: 'Cambios sin guardar',
+        text: 'Tienes cambios sin guardar en la sesión. ¿Salir de todos modos?',
+        showCancelButton: true,
+        confirmButtonText: 'Salir',
+        cancelButtonText: 'Cancelar',
+      });
+      if (!res.isConfirmed) return;
       window.sessionDirty = false;
     }
     setOpen(false);
@@ -32,9 +39,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   };
 
   const logout = async () => {
-    if (!confirm('¿Cerrar sesión?')) return;
+    const res = await Swal.fire({ icon: 'question', title: '¿Cerrar sesión?', showCancelButton: true, confirmButtonText: 'Sí', cancelButtonText: 'Cancelar' });
+    if (!res.isConfirmed) return;
     await fetch('/api/auth/logout', { method: 'POST' });
     setOpen(false);
+    await Swal.fire({ icon: 'success', title: 'Sesión cerrada', timer: 1200, showConfirmButton: false });
     router.replace('/login');
   };
 
@@ -66,6 +75,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             </div>
             <div className="list-group list-group-flush">
               <button className="list-group-item list-group-item-action" onClick={() => nav('/')}>Inicio</button>
+              <button className="list-group-item list-group-item-action" onClick={() => nav('/workspaces')}>Workspaces</button>
               <button className="list-group-item list-group-item-action" onClick={() => nav('/people')}>Personas</button>
               <button className="list-group-item list-group-item-action" onClick={() => nav('/sessions')}>Sesiones</button>
               <button className="list-group-item list-group-item-action" onClick={() => nav('/reports')}>Reportes</button>
@@ -92,4 +102,3 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
-

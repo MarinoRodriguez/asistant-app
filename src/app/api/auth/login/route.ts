@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { readJSON } from '@/lib/db';
+import { listMemberships } from '@/lib/auth-server';
 
 interface User {
   id: number;
@@ -24,5 +25,12 @@ export async function POST(req: NextRequest) {
     maxAge: expMs / 1000,
     sameSite: 'lax',
   });
+  // Set a default active workspace if user is member of any
+  try {
+    const ms = listMemberships().filter(m => m.userId === user.id);
+    if (ms.length > 0) {
+      res.cookies.set('ws', String(ms[0].workspaceId), { path: '/', sameSite: 'lax' });
+    }
+  } catch {}
   return res;
 }

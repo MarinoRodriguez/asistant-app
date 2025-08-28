@@ -1,0 +1,23 @@
+[
+  {
+    "workspaceId": 1756355033303,
+    "userId": 1756354286712,
+    "roles": [
+      "owner"
+    ]
+  },
+  {
+    "workspaceId": 1756355323277,
+    "userId": 1756340656372,
+    "roles": [
+      "owner"
+    ]
+  },
+  {
+    "workspaceId": 1756355323277,
+    "userId": 1756354286712,
+    "roles": [
+      "viewer"
+    ]
+  }
+]

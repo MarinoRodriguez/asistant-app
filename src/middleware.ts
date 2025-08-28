@@ -48,10 +48,15 @@ export function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL('/', req.url));
   }
 
+  // If authenticated but no active workspace, send to workspaces page
+  const ws = req.cookies.get('ws')?.value;
+  if (!ws && pathname !== '/workspaces') {
+    return NextResponse.redirect(new URL('/workspaces', req.url));
+  }
+
   return NextResponse.next();
 }
 
 export const config = {
   matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 };
-
