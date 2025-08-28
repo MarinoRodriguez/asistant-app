@@ -1,0 +1,7 @@
+# Construir la imagen con Dockerfile
+docker build -t assistant-app:latest .
+
+# (Alternativa) Construir usando docker-compose y el objetivo de runtime
+# Esto respeta el contexto y targets definidos en docker-compose.yml
+docker compose build
+

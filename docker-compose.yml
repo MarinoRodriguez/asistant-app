@@ -1,0 +1,30 @@
+# docker-compose for running the Next.js app in production mode
+#
+# - Builds the image using the multi-stage Dockerfile
+# - Exposes port 3000
+# - Persists the JSON database under /app/data via a named volume
+# - You can swap the named volume for a bind mount to keep data in the repo
+
+version: '3.9'
+
+services:
+  web:
+    build:
+      context: .
+      target: runner # use the final runtime stage
+    image: assistant-app:latest
+    ports:
+      - "3000:3000" # host:container
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - app-data:/app/data # persist JSON data (people.json, sessions.json, etc.)
+      # Alternatively, use a local bind mount during development:
+      # - ./data:/app/data
+    restart: unless-stopped
+
+volumes:
+  app-data:
+    # Named volume managed by Docker
+    # (leave empty to use default local driver)
+

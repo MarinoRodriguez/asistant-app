@@ -1,0 +1,15 @@
+# Desplegar en background (modo detach)
+docker compose up -d
+
+# Ver logs en tiempo real
+docker compose logs -f
+
+# Ver estado de los contenedores
+docker compose ps
+
+# Detener y eliminar contenedores (mantiene los volúmenes)
+docker compose down
+
+# (Opcional) Eliminar también el volumen de datos persistente
+# docker compose down -v
+
